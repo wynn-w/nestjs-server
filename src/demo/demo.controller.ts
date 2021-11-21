@@ -11,13 +11,35 @@ import {
   Patch,
   Param,
 } from '@nestjs/common';
+import {
+  ApiBody,
+  ApiHeader,
+  ApiOperation,
+  //   ApiProperty,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { DemoService } from './demo.service';
 
+import { UserDTO } from './dto/userInfo.dto';
 @Controller('demo')
+@ApiTags('demo module')
 export class DemoController {
   constructor(private readonly demoService: DemoService) {}
 
   @Get('/hello')
+  @ApiQuery({
+    name: 'id',
+    description: 'user id',
+    type: Number,
+    required: true,
+  })
+  @ApiHeader({
+    name: 'token',
+    description: 'auth token',
+    required: true,
+  })
+  // 参考链接：https://blog.csdn.net/gwdgwd123/article/details/105412274
   fetch(
     @Query('id') id: number, // 在使用「@Query() id: number」情况下解析时候，接受到的 id 为 「object number」
     @Query('name') name: string,
@@ -27,7 +49,15 @@ export class DemoController {
     return this.demoService.getUserInfo(id, name);
   }
   @Post('/create')
-  create(@Body('id') id: number, @Body('name') name?: string): string {
+  @ApiOperation({ summary: 'create user' })
+  @ApiBody({
+    type: UserDTO,
+    description: 'user info',
+    required: true,
+  })
+  //   参考连接：https://juejin.cn/post/6844904125814063118
+  create(@Body() body: UserDTO): string {
+    const { id, name = '' } = body;
     return this.demoService.createUser(id, name);
   }
   @Patch('/:id') // 意为：解析url中最后一个「/」后的内容为 id，同时「/:id」与其效果相同 => 简写
@@ -56,8 +86,16 @@ export class DemoController {
 }
 // ---------  总结  -------------
 /**
- *  对于 「@Query」、「@Param()」、「@Body()」，
+ *  对于 「@Query」、「@Param()」、「@Body()」:
  *  @xxx() aa => 意为获取 req/res.xxx 并将 req/res.xxx 赋值给 aa
  *  @xxx('bb') aa => 意为获取 req/res.xxx.bb 并将 req/res.xxx.bb 赋值给 aa
+ *  对于自动生成文档的影响：
+ *  「@Query」会自动生成参数列表，其他两者都无法实现该效果
+ * --------------------------------------
+ *  「@ApiTags」:类别
+ *  「@ApiBody」: *无 name 属性
+ * --------------------------------------
+ *  对于「@ApiBody」，此类为描述，可以不写，直接对解析出的数据进行类型限定
+ *  例：@Body() body: Number => 生成的文档就会对其添加类型限定
  * */
 // ----------------------
