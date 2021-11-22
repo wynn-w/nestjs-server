@@ -10,13 +10,37 @@ class DemoController extends Controller {
   }
   async fetch() {
     const { ctx } = this;
-    const { params: { id } } = ctx;
-    ctx.body = `receive id: ${id}`;
+    const { query: { id } } = ctx;
+    ctx.body = {
+      data: { id },
+      msg: 'http method: get \n common access: ctx.query',
+    };
   }
   async findOne() {
     const { ctx } = this;
     const { request: { body } } = ctx;
-    ctx.body = body;
+    ctx.body = {
+      data: { body },
+      msg: 'http method: post \n common access: ctx.request',
+    };
+  }
+  async delete() {
+    const { ctx } = this;
+
+    const { params } = ctx;
+    // console.log(ctx);
+    ctx.body = {
+      data: { params },
+      msg: 'http method: delete \n common access: ctx.params',
+    };
+  }
+  async update() {
+    const { ctx } = this;
+    const { params: { id } } = ctx;
+    ctx.body = {
+      data: { id },
+      msg: 'http method: put \n common access: ctx.params',
+    };
   }
 }
 
