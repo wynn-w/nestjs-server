@@ -10,9 +10,17 @@ class DemoController extends Controller {
   }
   async fetch() {
     const { ctx } = this;
-    const { id } = ctx.params;
+    const { params: { id } } = ctx;
     ctx.body = `receive id: ${id}`;
+  }
+  async findOne() {
+    const { ctx } = this;
+    const { request: { body } } = ctx;
+    ctx.body = body;
   }
 }
 
 module.exports = DemoController;
+/**
+ * 跨域实现 参考链接：https://www.cnblogs.com/mengfangui/p/11540075.html
+ * */
