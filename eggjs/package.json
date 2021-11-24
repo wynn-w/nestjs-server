@@ -35,7 +35,8 @@
     "cov": "egg-bin cov",
     "lint": "eslint .",
     "ci": "npm run lint && npm run cov",
-    "autod": "autod"
+    "autod": "autod",
+    "db": "node db/index"
   },
   "ci": {
     "version": "10"
