@@ -9,7 +9,7 @@
 //   providers: [UsersService],
 //   controllers: [UsersController],
 // })
-// export class UsersModule {}
+// export class UserModule {}
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -23,4 +23,4 @@ import { UserController } from './user.controller';
   controllers: [UserController],
   providers: [UsersService],
 })
-export class UsersModule {}
+export class UserModule {}

@@ -5,7 +5,7 @@ import {
   // Put,
   //   Delete,
   Query,
-  Headers,
+  // Headers,
   //   Post,
   Body,
   //   Param,
@@ -25,8 +25,10 @@ import {
 
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { UserDTO } from 'src/demo/dto/userInfo.dto';
-import { InsertResult } from 'typeorm';
+// import { UserDTO } from '../demo/dto/userInfo.dto';
+import { User as UserEntity } from './user.entity';
+
+// import { InsertResult } from 'typeorm';
 @Controller('user')
 @ApiTags('user module(use sql)')
 export class UserController {
@@ -39,21 +41,30 @@ export class UserController {
     return this.usersService.findAll();
   }
   @Put('/')
-  public async put(@Headers() headers: unknown) {
-    if (typeof headers !== 'number') {
-      console.log(headers);
-    }
+  @Header('Cache-Control', 'none')
+  @Header('Content-Type', 'application/json; charset=utf-8')
+  @ApiOperation({ summary: 'update user' })
+  @ApiBody({
+    type: UserEntity,
+    description: 'user info',
+    required: true,
+  })
+  public async put(
+    //@Headers() headers: unknown
+    @Body() userDto: UserEntity,
+  ) {
+    return this.usersService.update(userDto);
   }
   @Patch('/create')
   @Header('Cache-Control', 'none')
   @Header('Content-Type', 'application/json; charset=utf-8')
   @ApiOperation({ summary: 'create user' })
   @ApiBody({
-    type: UserDTO,
+    type: UserEntity,
     description: 'user info',
     required: true,
   })
-  public async create(@Body() userDto: UserDTO): Promise<InsertResult> {
+  public async create(@Body() userDto: UserEntity): Promise<UserEntity> {
     return this.usersService.create(userDto);
   }
   @Delete('/delete')
