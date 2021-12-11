@@ -8,7 +8,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { DemoModule } from './demo/demo.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { Connection } from 'typeorm';
-import { UsersModule } from './user/user.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -25,7 +26,8 @@ import { UsersModule } from './user/user.module';
       autoLoadEntities: true,
     }),
     DemoModule,
-    UsersModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

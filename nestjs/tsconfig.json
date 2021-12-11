@@ -27,7 +27,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     // +++++++++++++++
-    "noImplicitAny": true
+    "noImplicitAny": false
 
   },
   "include": ["typings/global.d.ts", "src/**/*", "test/**/*"],

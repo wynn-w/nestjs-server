@@ -9,4 +9,7 @@ export class UserDTO {
   @ApiProperty({ example: 'xiaoming', description: 'name', required: false })
   @IsString()
   name!: string;
+  @ApiProperty({ example: 'xiaoming', description: 'name', required: false })
+  @IsString()
+  password!: string;
 }

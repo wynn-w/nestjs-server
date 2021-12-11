@@ -1,7 +1,7 @@
 import { Controller, Get, UseFilters } from '@nestjs/common';
 import { AppService } from './app.service';
 
-import { HttpExceptionFilter } from './utils/http-exception.filter'
+import { HttpExceptionFilter } from './utils/http-exception.filter';
 
 // 路由层
 
